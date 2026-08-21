@@ -4,7 +4,7 @@ Sistema de apoio à organização do 1º Hackathon do curso de Bacharelado em Ci
 
 ## Sobre
 
-Projeto Integrador desenvolvido para dar suporte real à comissão organizadora do Hackathon: inscrição de equipes, submissão de projetos, agenda do evento, avaliação dos jurados, etc.
+Projeto Integrador desenvolvido para dar suporte real à comissão organizadora do Hackathon: inscrição de equipes, submissão de projetos, agenda do evento, avaliação dos jurados, entre outras coisas.
 
 ## Equipe
 

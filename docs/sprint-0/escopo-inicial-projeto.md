@@ -1,9 +1,12 @@
 # Escopo Inicial do Projeto — Sprint 0 (Semana 5)
 
-**Disciplina:** Engenharia de Software I — IFPR Campus Pinhais
-**Professora:** Lauriana Paludo
-**Equipe:** Miguel Gerhardt Soares e Silva + Michelly Morena de Castro Loyola
 **Projeto:** Sistema de Apoio ao 1º Hackathon do Curso
+
+**Disciplina:** Engenharia de Software I — Profa. Lauriana Paludo — IFPR Campus Pinhais
+
+**Equipe:** Miguel Gerhardt Soares e Silva, Michelly Morena de Castro Loyola
+
+**Etapa:** Sprint 0 — Semana 2
 
 ---
 

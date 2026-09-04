@@ -1,10 +1,14 @@
 # Atividade Avaliativa — Escolha do Processo Ágil da Equipe
 
-**Disciplina:** Engenharia de Software I — IFPR Campus Pinhais
-**Professora:** Lauriana Paludo
-**Equipe:** Miguel Gerhardt Soares e Silva + Michelly Morena de Castro Loyola
 **Projeto:** Sistema de Apoio ao 1º Hackathon do Curso
 
+**Disciplina:** Engenharia de Software I — Profa. Lauriana Paludo — IFPR Campus Pinhais
+
+**Equipe:** Miguel Gerhardt Soares e Silva, Michelly Morena de Castro Loyola
+
+**Etapa:** Sprint 0 
+
+---
 ---
 
 ## Canvas

@@ -6,7 +6,7 @@
 
 **Equipe:** Miguel Gerhardt Soares e Silva, Michelly Morena de Castro Loyola
 
-**Etapa:** Sprint 0 — Semana 2
+**Etapa:** Sprint 0 
 
 ---
 

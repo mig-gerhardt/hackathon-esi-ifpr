@@ -24,7 +24,7 @@
 
 ## Épico 1: Cadastro e inscrição de equipes
 
-### RF01 - Inscrever equipe - **Must**
+### RF01 (Requisito Funcional 01) - Inscrever equipe - **Must**
 
 ```
 Como participante, quero inscrever minha equipe com o nome e os integrantes, para que possamos participar do Hackathon.

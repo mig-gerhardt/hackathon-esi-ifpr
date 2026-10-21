@@ -23,8 +23,6 @@ Sprints necessárias = Total de pontos Must ÷ Velocidade
 Sprints necessárias = 24 ÷ 8 = 3 sprints
 ```
 
-Os itens **Should** (7 pontos) entram em uma 4ª sprint, ou antes se a velocidade real ficar acima do estimado.
-
 ---
 
 [⬅ Voltar ao índice](README.md)

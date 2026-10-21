@@ -1,6 +1,6 @@
 # Diagrama de casos de uso
  
-![Diagrama de casos de uso](../docs/diagrama-casos-de-uso.png)
+![Diagrama de casos de uso](../docs/diagrama-casos-de-uso.drawio.png)
  
 📁 Arquivo editável: [`diagrama-casos-de-uso.drawio`](../docs/diagrama-casos-de-uso.drawio)
  

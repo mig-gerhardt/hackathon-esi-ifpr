@@ -1,9 +1,8 @@
 # Diagrama de casos de uso
  
-![Diagrama de casos de uso](../docs/diagrama-casos-de-uso.drawio.png)
+![Diagrama de casos de uso](../diagrama-casos-de-uso.drawio.png)
  
-📁 Arquivo editável: [`diagrama-casos-de-uso.drawio`](../docs/diagrama-casos-de-uso.drawio)
- 
+📁 Arquivo editável: [`diagrama-casos-de-uso.drawio.png`](../diagrama-casos-de-uso.drawio.png) (abra no [draw.io](https://app.diagrams.net) pra editar) 
 ## Atores
  
 | Ator | Casos de uso |

@@ -1,3 +1,15 @@
+# Dependências e relatórios gerados
+node_modules/
+coverage/
+
+# Ambiente / segredos
+.env
+*.log
+
+# Bancos SQLite locais (desenvolvimento e testes)
+prisma/*.db
+prisma/*.db-journal
+
 # Sistema Operacional
 .DS_Store
 Thumbs.db
@@ -8,7 +20,3 @@ desktop.ini
 .idea/
 *.swp
 *.swo
-
-# Ambiente / segredos
-.env
-*.log

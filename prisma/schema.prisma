@@ -1,0 +1,152 @@
+// Modelo de dados do sistema do Hackathon BCC.
+// Em desenvolvimento e nos testes usamos SQLite. Para o deploy, troque o
+// provider para "postgresql" (veja docs/deploy.md). Por isso não usamos enums
+// nem recursos exclusivos de um banco: papéis e status são textos validados
+// pela aplicação (veja src/lib/constantes.js).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  email        String   @unique
+  senhaHash    String
+  papel        String   @default("PARTICIPANTE")
+  equipeId     Int?
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  equipe          Equipe?               @relation("MembrosDaEquipe", fields: [equipeId], references: [id], onDelete: SetNull)
+  equipeQueLidera Equipe?               @relation("LiderDaEquipe")
+  notas           Nota[]
+  comentarios     ComentarioAvaliacao[]
+
+  @@index([equipeId])
+  @@index([papel])
+}
+
+model Equipe {
+  id              Int      @id @default(autoincrement())
+  nome            String
+  // Nome em minúsculas, usado para garantir nomes únicos sem diferenciar maiúsculas.
+  nomeNormalizado String   @unique
+  status          String   @default("PENDENTE")
+  motivoRecusa    String?
+  liderId         Int      @unique
+  criadoEm        DateTime @default(now())
+  atualizadoEm    DateTime @updatedAt
+
+  lider       Usuario               @relation("LiderDaEquipe", fields: [liderId], references: [id], onDelete: Restrict)
+  membros     Usuario[]             @relation("MembrosDaEquipe")
+  projeto     Projeto?
+  notas       Nota[]
+  comentarios ComentarioAvaliacao[]
+
+  @@index([status])
+}
+
+model Projeto {
+  id              Int      @id @default(autoincrement())
+  equipeId        Int      @unique
+  linkRepositorio String
+  enviadoEm       DateTime @default(now())
+  atualizadoEm    DateTime @updatedAt
+
+  equipe Equipe @relation(fields: [equipeId], references: [id], onDelete: Cascade)
+}
+
+// Registro único (id = 1) com a configuração do evento.
+model ConfiguracaoEvento {
+  id                 Int      @id @default(1)
+  nome               String
+  edicao             Int
+  dataHora           DateTime
+  local              String
+  descricao          String
+  prazoInscricao     DateTime
+  prazoEntrega       DateTime
+  minIntegrantes     Int      @default(2)
+  maxIntegrantes     Int      @default(5)
+  avaliacaoAberta    Boolean  @default(false)
+  resultadoPublicado Boolean  @default(false)
+  atualizadoEm       DateTime @updatedAt
+}
+
+model ItemAgenda {
+  id        Int      @id @default(autoincrement())
+  titulo    String
+  descricao String   @default("")
+  inicio    DateTime
+  fim       DateTime
+  local     String   @default("")
+
+  @@index([inicio])
+}
+
+model Aviso {
+  id          Int      @id @default(autoincrement())
+  titulo      String
+  texto       String
+  fixado      Boolean  @default(false)
+  urgente     Boolean  @default(false)
+  publicadoEm DateTime @default(now())
+
+  @@index([publicadoEm])
+}
+
+model Criterio {
+  id        Int    @id @default(autoincrement())
+  nome      String
+  descricao String @default("")
+  peso      Int
+
+  notas Nota[]
+}
+
+// Uma nota por jurado, por equipe, por critério. Avaliar de novo atualiza.
+model Nota {
+  id           Int      @id @default(autoincrement())
+  valor        Float
+  juradoId     Int
+  equipeId     Int
+  criterioId   Int
+  atualizadoEm DateTime @updatedAt
+
+  jurado   Usuario  @relation(fields: [juradoId], references: [id], onDelete: Cascade)
+  equipe   Equipe   @relation(fields: [equipeId], references: [id], onDelete: Cascade)
+  criterio Criterio @relation(fields: [criterioId], references: [id], onDelete: Restrict)
+
+  @@unique([juradoId, equipeId, criterioId])
+  @@index([equipeId])
+  @@index([criterioId])
+}
+
+// Comentário opcional de um jurado para uma equipe.
+model ComentarioAvaliacao {
+  id           Int      @id @default(autoincrement())
+  texto        String
+  juradoId     Int
+  equipeId     Int
+  atualizadoEm DateTime @updatedAt
+
+  jurado Usuario @relation(fields: [juradoId], references: [id], onDelete: Cascade)
+  equipe Equipe  @relation(fields: [equipeId], references: [id], onDelete: Cascade)
+
+  @@unique([juradoId, equipeId])
+}
+
+// Sessões de login, usadas pelo @quixo3/prisma-session-store.
+// O nome e os campos deste modelo são exigidos pela biblioteca.
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}

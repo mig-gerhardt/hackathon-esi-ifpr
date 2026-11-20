@@ -1,0 +1,54 @@
+/* Tokens de design do Hackathon BCC.
+   Toda cor, espaçamento e tipografia do site vem daqui. */
+:root {
+  /* Cores */
+  --verde-950: #0a1f17; /* faixa de aviso */
+  --verde-900: #0e2a20; /* cabeçalho, botão principal, títulos */
+  --verde-700: #1f4a39; /* hover */
+  --fundo: #f2f0ea; /* off-white da página */
+  --superficie: #faf8f3; /* cards e campos */
+  --borda: #ddd8cc;
+  --texto: #15201b;
+  --texto-suave: #5c665f;
+  --sucesso: #2f6b4f;
+  --erro: #a3402f;
+  --alerta: #8a6a1f;
+
+  /* Escala de espaçamento */
+  --espaco-1: 4px;
+  --espaco-2: 8px;
+  --espaco-3: 12px;
+  --espaco-4: 16px;
+  --espaco-5: 24px;
+  --espaco-6: 32px;
+  --espaco-7: 48px;
+  --espaco-8: 64px;
+  --espaco-9: 96px;
+
+  /* Tipografia */
+  --fonte: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --tamanho-texto: 16px;
+  --tamanho-pequeno: 14px;
+  --tamanho-mini: 13px;
+  --tamanho-titulo-1: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
+  --tamanho-titulo-2: clamp(1.625rem, 1.4rem + 1vw, 2.125rem);
+  --tamanho-titulo-3: 1.25rem;
+  --altura-linha: 1.6;
+  --espacamento-titulo: -0.02em;
+  --peso-regular: 400;
+  --peso-medio: 500;
+  --peso-semibold: 600;
+
+  /* Formas */
+  --raio-card: 8px;
+  --raio-controle: 6px;
+  --raio-etiqueta: 4px;
+  --linha: 1px solid var(--borda);
+  --anel-foco: 0 0 0 3px color-mix(in srgb, var(--sucesso) 35%, transparent);
+
+  /* Layout */
+  --largura-maxima: 1100px;
+  --largura-formulario: 440px;
+  --altura-controle: 44px;
+  --transicao: 120ms ease-out;
+}

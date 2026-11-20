@@ -1,0 +1,11 @@
+<section class="pagina-erro">
+  <span class="codigo">Erro <%= status %></span>
+  <h1><%= titulo %></h1>
+  <p class="texto-suave"><%= mensagem %></p>
+  <div class="acoes">
+    <a class="botao botao--principal" href="/">Ir para o início</a>
+    <% if (status === 403 && !usuarioAtual) { %>
+    <a class="botao botao--secundario" href="/entrar">Entrar</a>
+    <% } %>
+  </div>
+</section>

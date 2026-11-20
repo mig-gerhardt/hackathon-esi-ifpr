@@ -1,0 +1,39 @@
+<%#
+  Campo de formulário com rótulo, ajuda e mensagem de erro ligada ao campo
+  (aria-describedby). Uso:
+  include('../partials/campo', { nome: 'email', rotulo: 'E-mail', tipo: 'email' })
+  Opções: tipo, valor, placeholder, ajuda, autocomplete, obrigatorio, multilinha,
+  min, max, passo, modoTeclado, desativado, idCampo, chaveDoErro.
+%><%
+  const id = locals.idCampo || nome;
+  const erro = erros[locals.chaveDoErro || nome];
+  const valorDoCampo = locals.valor !== undefined ? locals.valor : (valores[nome] ?? '');
+  const descricoes = [];
+  if (locals.ajuda) descricoes.push(id + '-ajuda');
+  if (erro) descricoes.push(id + '-erro');
+%>
+<div class="campo<%= erro ? ' campo--erro' : '' %>">
+  <label class="campo__rotulo" for="<%= id %>"><%= rotulo %></label>
+  <% if (locals.multilinha) { %>
+  <textarea class="campo__entrada" id="<%= id %>" name="<%= nome %>"
+    <% if (locals.obrigatorio) { %>required<% } %>
+    <% if (locals.desativado) { %>disabled<% } %>
+    <% if (erro) { %>aria-invalid="true"<% } %>
+    <% if (descricoes.length) { %>aria-describedby="<%= descricoes.join(' ') %>"<% } %>><%= valorDoCampo %></textarea>
+  <% } else { %>
+  <input class="campo__entrada" id="<%= id %>" name="<%= nome %>" type="<%= locals.tipo || 'text' %>"
+    value="<%= valorDoCampo %>"
+    <% if (locals.placeholder) { %>placeholder="<%= placeholder %>"<% } %>
+    <% if (locals.autocomplete) { %>autocomplete="<%= autocomplete %>"<% } %>
+    <% if (locals.min !== undefined) { %>min="<%= min %>"<% } %>
+    <% if (locals.max !== undefined) { %>max="<%= max %>"<% } %>
+    <% if (locals.passo) { %>step="<%= passo %>"<% } %>
+    <% if (locals.modoTeclado) { %>inputmode="<%= modoTeclado %>"<% } %>
+    <% if (locals.obrigatorio) { %>required<% } %>
+    <% if (locals.desativado) { %>disabled<% } %>
+    <% if (erro) { %>aria-invalid="true"<% } %>
+    <% if (descricoes.length) { %>aria-describedby="<%= descricoes.join(' ') %>"<% } %>>
+  <% } %>
+  <% if (locals.ajuda) { %><p class="campo__ajuda" id="<%= id %>-ajuda"><%= ajuda %></p><% } %>
+  <% if (erro) { %><p class="campo__erro" id="<%= id %>-erro"><%= erro %></p><% } %>
+</div>

@@ -1,0 +1,5 @@
+<% for (const mensagem of mensagens) { %>
+<div class="alerta alerta--<%= mensagem.tipo %>" role="<%= mensagem.tipo === 'erro' ? 'alert' : 'status' %>">
+  <p><%= mensagem.mensagem %></p>
+</div>
+<% } %>

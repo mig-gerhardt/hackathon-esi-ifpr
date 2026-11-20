@@ -1,0 +1,43 @@
+<%
+  const linksDoMenu = [
+    { href: '/', rotulo: 'Início' },
+    { href: '/agenda', rotulo: 'Agenda' },
+    { href: '/resultados', rotulo: 'Resultados' },
+  ];
+  const linkDoPapel = {
+    PARTICIPANTE: { href: '/minha-equipe', rotulo: 'Minha equipe' },
+    JURADO: { href: '/jurado', rotulo: 'Painel do jurado' },
+    COMISSAO: { href: '/comissao', rotulo: 'Painel da comissão' },
+  };
+  if (usuarioAtual) linksDoMenu.push(linkDoPapel[usuarioAtual.papel]);
+  const estaAtivo = (href) => href === '/' ? caminhoAtual === '/' : caminhoAtual === href || caminhoAtual.startsWith(href + '/');
+%>
+<header class="cabecalho">
+  <div class="container cabecalho__interno">
+    <a class="marca" href="/">Hackathon BCC</a>
+    <button type="button" class="botao-menu" data-botao-menu aria-controls="navegacao-principal" aria-expanded="false">
+      <%- include('icone', { nome: 'menu' }) %>
+      Menu
+    </button>
+    <nav id="navegacao-principal" class="navegacao" aria-label="Principal">
+      <ul class="menu">
+        <% for (const link of linksDoMenu) { %>
+        <li>
+          <a class="menu__link" href="<%= link.href %>"<% if (estaAtivo(link.href)) { %> aria-current="page"<% } %>><%= link.rotulo %></a>
+        </li>
+        <% } %>
+      </ul>
+      <div class="conta">
+        <% if (usuarioAtual) { %>
+        <span class="conta__nome"><%= usuarioAtual.nome %></span>
+        <form method="post" action="/sair">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit" class="botao-link botao-link--claro">Sair</button>
+        </form>
+        <% } else { %>
+        <a class="botao botao--claro" href="/entrar">Entrar</a>
+        <% } %>
+      </div>
+    </nav>
+  </div>
+</header>

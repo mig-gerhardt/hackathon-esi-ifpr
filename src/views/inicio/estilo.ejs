@@ -1,0 +1,116 @@
+<div class="cabecalho-pagina">
+  <div>
+    <h1>Guia de estilo</h1>
+    <p>Todos os componentes do site. Esta página só existe em desenvolvimento.</p>
+  </div>
+</div>
+
+<div class="pilha-grande">
+  <section aria-labelledby="titulo-cores">
+    <h2 id="titulo-cores">Cores</h2>
+    <ul class="amostras">
+      <% for (const cor of ['verde-950', 'verde-900', 'verde-700', 'fundo', 'superficie', 'borda', 'texto', 'texto-suave', 'sucesso', 'erro', 'alerta']) { %>
+      <li class="amostra amostra--<%= cor %>"><span></span><p>--<%= cor %></p></li>
+      <% } %>
+    </ul>
+  </section>
+
+  <section aria-labelledby="titulo-tipografia">
+    <h2 id="titulo-tipografia">Tipografia</h2>
+    <p class="destaque__titulo">Título de destaque</p>
+    <h1>Título de página (h1)</h1>
+    <h2>Título de seção (h2)</h2>
+    <h3>Subtítulo (h3)</h3>
+    <p>Texto corrido com 16px e altura de linha 1,6. <a href="/estilo">Link de exemplo</a>.</p>
+    <p class="texto-suave">Texto de apoio em cinza-esverdeado.</p>
+    <span class="selo">1ª edição · IFPR Campus Pinhais</span>
+  </section>
+
+  <section aria-labelledby="titulo-botoes">
+    <h2 id="titulo-botoes">Botões</h2>
+    <div class="acoes">
+      <button type="button" class="botao botao--principal">Principal</button>
+      <button type="button" class="botao botao--secundario">Secundário</button>
+      <button type="button" class="botao botao--perigo">Perigo</button>
+      <button type="button" class="botao botao--principal botao--pequeno">Pequeno</button>
+      <button type="button" class="botao-link">Botão com cara de link</button>
+    </div>
+    <div class="cabecalho">
+      <div class="container cabecalho__interno">
+        <a class="botao botao--claro" href="/entrar">Entrar (claro, usado no cabeçalho)</a>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="titulo-campos">
+    <h2 id="titulo-campos">Campos</h2>
+    <form class="formulario coluna-estreita" action="/estilo" method="get">
+      <%- include('../partials/campo', { nome: 'exemploTexto', rotulo: 'Campo de texto', placeholder: 'nome@estudantes.ifpr.edu.br', ajuda: 'Texto de ajuda do campo.' }) %>
+      <% erros.exemploErro = 'Mensagem de erro ligada ao campo.' %>
+      <%- include('../partials/campo', { nome: 'exemploErro', rotulo: 'Campo com erro', valor: 'valor inválido' }) %>
+      <%- include('../partials/campo', { nome: 'exemploArea', rotulo: 'Área de texto', multilinha: true }) %>
+      <%- include('../partials/caixa-selecao', { nome: 'exemploCaixa', rotulo: 'Caixa de seleção', ajuda: 'Com texto explicativo.' }) %>
+    </form>
+  </section>
+
+  <section aria-labelledby="titulo-cards">
+    <h2 id="titulo-cards">Cards</h2>
+    <div class="grade-3">
+      <div class="card">
+        <span class="card__rotulo">Passo 1</span>
+        <h3 class="card__titulo">Título do card</h3>
+        <p>Texto curto em cinza.</p>
+      </div>
+      <div class="card">
+        <span class="card__rotulo">Número</span>
+        <span class="numero">12</span>
+      </div>
+      <div class="card">
+        <dl class="definicoes">
+          <dt>Rótulo</dt><dd>Valor</dd>
+          <dt>Outro</dt><dd>Outro valor</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="titulo-alertas">
+    <h2 id="titulo-alertas">Alertas e etiquetas</h2>
+    <div class="alerta alerta--sucesso"><p>Mensagem de sucesso.</p></div>
+    <div class="alerta alerta--erro"><p>Mensagem de erro.</p></div>
+    <div class="alerta alerta--info"><p>Mensagem informativa.</p></div>
+    <div class="alerta alerta--alerta"><p>Mensagem de atenção.</p></div>
+    <div class="acoes">
+      <%- include('../partials/etiqueta-status', { status: 'PENDENTE' }) %>
+      <%- include('../partials/etiqueta-status', { status: 'APROVADA' }) %>
+      <%- include('../partials/etiqueta-status', { status: 'RECUSADA' }) %>
+      <span class="etiqueta etiqueta--parcial">Parcial</span>
+      <span class="etiqueta etiqueta--avaliada">Avaliada</span>
+      <span class="etiqueta etiqueta--urgente">Urgente</span>
+      <span class="etiqueta etiqueta--neutra">Neutra</span>
+    </div>
+  </section>
+
+  <section aria-labelledby="titulo-tabela">
+    <h2 id="titulo-tabela">Tabela</h2>
+    <div class="tabela-rolavel">
+      <table class="tabela">
+        <caption class="visualmente-oculto">Tabela de exemplo</caption>
+        <thead><tr><th scope="col">Equipe</th><th scope="col" class="numerico">Integrantes</th><th scope="col">Status</th></tr></thead>
+        <tbody>
+          <tr><td>Byte Verde</td><td class="numerico">4</td><td><%- include('../partials/etiqueta-status', { status: 'APROVADA' }) %></td></tr>
+          <tr><td>Os Compiladores</td><td class="numerico">3</td><td><%- include('../partials/etiqueta-status', { status: 'PENDENTE' }) %></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="titulo-vazio">
+    <h2 id="titulo-vazio">Estado vazio e filtros</h2>
+    <ul class="filtros">
+      <li><a href="/estilo" aria-current="page">Ativo</a></li>
+      <li><a href="/estilo">Outro filtro</a></li>
+    </ul>
+    <div class="vazio"><p>Nenhum item por enquanto.</p></div>
+  </section>
+</div>

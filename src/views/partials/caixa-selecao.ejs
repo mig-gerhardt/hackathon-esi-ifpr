@@ -1,0 +1,11 @@
+<%# Checkbox com rótulo. Uso: include('../partials/caixa-selecao', { nome, rotulo, ajuda }) %>
+<%
+  const marcada = valores[nome] === 'on' || valores[nome] === true || valores[nome] === 'true';
+%>
+<div class="caixa-selecao">
+  <input type="checkbox" id="<%= nome %>" name="<%= nome %>"<% if (marcada) { %> checked<% } %><% if (locals.ajuda) { %> aria-describedby="<%= nome %>-ajuda"<% } %>>
+  <label for="<%= nome %>">
+    <%= rotulo %>
+    <% if (locals.ajuda) { %><small id="<%= nome %>-ajuda"><%= ajuda %></small><% } %>
+  </label>
+</div>

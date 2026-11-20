@@ -1,0 +1,9 @@
+<section class="coluna-estreita">
+  <h1><%= pergunta %></h1>
+  <p class="subtitulo"><%= explicacao %></p>
+  <form method="post" action="<%= acao %>" class="acoes">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button type="submit" class="botao botao--perigo"><%= rotuloDoBotao %></button>
+    <a class="botao botao--secundario" href="<%= voltar %>">Cancelar</a>
+  </form>
+</section>

@@ -1,0 +1,55 @@
+<%- include('../partials/menu-comissao') %>
+<div class="cabecalho-pagina">
+  <div>
+    <h1><%= titulo %></h1>
+    <p><%= contagem.PENDENTE %> pendente(s), <%= contagem.APROVADA %> aprovada(s), <%= contagem.RECUSADA %> recusada(s).</p>
+  </div>
+</div>
+
+<nav aria-label="Filtrar por status">
+  <ul class="filtros">
+    <li><a href="/comissao/equipes"<% if (!statusSelecionado) { %> aria-current="page"<% } %>>Todas</a></li>
+    <% for (const status of Object.values(STATUS_EQUIPE)) { %>
+    <li><a href="/comissao/equipes?status=<%= status %>"<% if (statusSelecionado === status) { %> aria-current="page"<% } %>><%= NOMES_DOS_STATUS_EQUIPE[status] %>s (<%= contagem[status] %>)</a></li>
+    <% } %>
+  </ul>
+</nav>
+
+<% if (equipes.length === 0) { %>
+<div class="vazio"><p>Nenhuma equipe encontrada.</p></div>
+<% } else { %>
+<div class="tabela-rolavel">
+  <table class="tabela">
+    <caption class="visualmente-oculto">Equipes inscritas</caption>
+    <thead>
+      <tr>
+        <th scope="col">Equipe</th>
+        <th scope="col">Líder</th>
+        <th scope="col" class="numerico">Integrantes</th>
+        <th scope="col">Projeto</th>
+        <th scope="col">Status</th>
+        <th scope="col"><span class="visualmente-oculto">Ações</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const equipe of equipes) { %>
+      <tr>
+        <td><a href="/comissao/equipes/<%= equipe.id %>"><%= equipe.nome %></a></td>
+        <td><%= equipe.lider.nome %></td>
+        <td class="numerico"><%= equipe._count.membros %></td>
+        <td><%= equipe.projeto ? 'Enviado' : '—' %></td>
+        <td><%- include('../partials/etiqueta-status', { status: equipe.status }) %></td>
+        <td>
+          <% if (equipe.status !== STATUS_EQUIPE.APROVADA) { %>
+          <form method="post" action="/comissao/equipes/<%= equipe.id %>/aprovar">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="botao-link">Aprovar<span class="visualmente-oculto"> <%= equipe.nome %></span></button>
+          </form>
+          <% } %>
+        </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+<% } %>

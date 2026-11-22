@@ -1,0 +1,69 @@
+<%- include('../partials/menu-comissao') %>
+<div class="cabecalho-pagina">
+  <div>
+    <span class="sobretitulo"><a href="/comissao/equipes">Equipes</a></span>
+    <h1><%= equipe.nome %></h1>
+    <p>Inscrita em <%= datas.formatarDataHora(equipe.criadoEm) %></p>
+  </div>
+  <%- include('../partials/etiqueta-status', { status: equipe.status }) %>
+</div>
+
+<div class="grade-2">
+  <section class="card" aria-labelledby="titulo-integrantes">
+    <h2 id="titulo-integrantes">Integrantes (<%= equipe.membros.length %>)</h2>
+    <p class="texto-pequeno">Equipes de <%= evento.minIntegrantes %> a <%= evento.maxIntegrantes %> integrantes.</p>
+    <ul class="membros">
+      <% for (const membro of equipe.membros) { %>
+      <li>
+        <span>
+          <%= membro.nome %>
+          <span class="texto-suave texto-pequeno"> · <%= membro.email %></span>
+          <% if (membro.id === equipe.liderId) { %><span class="etiqueta etiqueta--neutra">Líder</span><% } %>
+        </span>
+        <% if (membro.id !== equipe.liderId) { %>
+        <form method="post" action="/comissao/equipes/<%= equipe.id %>/membros/<%= membro.id %>/remover">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit" class="botao-link botao-link--perigo">Remover<span class="visualmente-oculto"> <%= membro.nome %></span></button>
+        </form>
+        <% } %>
+      </li>
+      <% } %>
+    </ul>
+  </section>
+
+  <div class="pilha">
+    <section class="card" aria-labelledby="titulo-projeto">
+      <h2 id="titulo-projeto">Projeto</h2>
+      <% if (equipe.projeto) { %>
+      <p><a href="<%= equipe.projeto.linkRepositorio %>" rel="noopener noreferrer" target="_blank"><%= equipe.projeto.linkRepositorio %><span class="visualmente-oculto"> (abre em nova aba)</span></a></p>
+      <p class="texto-pequeno">Enviado em <%= datas.formatarDataHora(equipe.projeto.enviadoEm) %></p>
+      <% } else { %>
+      <p>Nenhum projeto enviado.</p>
+      <% } %>
+    </section>
+
+    <section class="card" aria-labelledby="titulo-decisao">
+      <h2 id="titulo-decisao">Decisão da comissão</h2>
+      <% if (equipe.status === STATUS_EQUIPE.RECUSADA && equipe.motivoRecusa) { %>
+      <p>Motivo da recusa: <%= equipe.motivoRecusa %></p>
+      <% } %>
+      <div class="formulario">
+        <% if (equipe.status !== STATUS_EQUIPE.APROVADA) { %>
+        <form method="post" action="/comissao/equipes/<%= equipe.id %>/aprovar">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit" class="botao botao--principal">Aprovar equipe</button>
+        </form>
+        <% } %>
+        <% if (equipe.status !== STATUS_EQUIPE.RECUSADA) { %>
+        <form method="post" action="/comissao/equipes/<%= equipe.id %>/recusar" class="formulario" novalidate>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <%- include('../partials/campo', { nome: 'motivo', rotulo: 'Motivo da recusa (opcional)', multilinha: true, ajuda: 'A equipe vê este texto na página dela.' }) %>
+          <button type="submit" class="botao botao--secundario">Recusar equipe</button>
+        </form>
+        <% } %>
+      </div>
+    </section>
+
+    <p class="texto-pequeno"><a href="/comissao/equipes/<%= equipe.id %>/excluir">Excluir a equipe</a></p>
+  </div>
+</div>

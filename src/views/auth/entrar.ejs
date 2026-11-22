@@ -1,0 +1,26 @@
+<section class="coluna-estreita">
+  <div class="card card--espacoso">
+    <h1>Entrar</h1>
+    <p class="subtitulo">Entre com seu e-mail e senha</p>
+    <form method="post" action="/entrar" class="formulario" novalidate>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <%- include('../partials/campo', { nome: 'email', rotulo: 'E-mail', tipo: 'email', autocomplete: 'username', placeholder: 'nome@estudantes.ifpr.edu.br', obrigatorio: true }) %>
+      <%- include('../partials/campo', { nome: 'senha', rotulo: 'Senha', tipo: 'password', autocomplete: 'current-password', obrigatorio: true, valor: '' }) %>
+      <div class="acoes acoes--entre">
+        <button type="submit" class="botao botao--principal">Entrar</button>
+        <a href="/criar-conta">Criar conta</a>
+      </div>
+    </form>
+  </div>
+
+  <% if (loginsDeDemonstracao.length > 0) { %>
+  <div class="demonstracao" data-demonstracao>
+    <span>Entrar como (só no protótipo):</span>
+    <ul>
+      <% for (const login of loginsDeDemonstracao) { %>
+      <li><a href="#" data-login-demonstracao data-email="<%= login.email %>" data-senha="<%= login.senha %>"><%= login.rotulo %></a></li>
+      <% } %>
+    </ul>
+  </div>
+  <% } %>
+</section>

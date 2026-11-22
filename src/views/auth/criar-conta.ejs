@@ -1,0 +1,17 @@
+<section class="coluna-estreita">
+  <div class="card card--espacoso">
+    <h1>Criar conta</h1>
+    <p class="subtitulo">Para participar do hackathon com a sua equipe</p>
+    <form method="post" action="/criar-conta" class="formulario" novalidate>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <%- include('../partials/campo', { nome: 'nome', rotulo: 'Nome completo', autocomplete: 'name', obrigatorio: true }) %>
+      <%- include('../partials/campo', { nome: 'email', rotulo: 'E-mail', tipo: 'email', autocomplete: 'email', placeholder: 'nome@estudantes.ifpr.edu.br', obrigatorio: true }) %>
+      <%- include('../partials/campo', { nome: 'senha', rotulo: 'Senha', tipo: 'password', autocomplete: 'new-password', ajuda: 'Pelo menos 8 caracteres.', obrigatorio: true, valor: '' }) %>
+      <%- include('../partials/campo', { nome: 'confirmacaoSenha', rotulo: 'Repita a senha', tipo: 'password', autocomplete: 'new-password', obrigatorio: true, valor: '' }) %>
+      <div class="acoes acoes--entre">
+        <button type="submit" class="botao botao--principal">Criar conta</button>
+        <a href="/entrar">Já tenho conta</a>
+      </div>
+    </form>
+  </div>
+</section>

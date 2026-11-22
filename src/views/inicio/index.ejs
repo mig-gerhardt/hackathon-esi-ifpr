@@ -1,0 +1,75 @@
+<%
+  const destinoDaInscricao = !usuarioAtual
+    ? '/criar-conta'
+    : usuarioAtual.papel === PAPEIS.PARTICIPANTE ? '/minha-equipe' : null;
+%>
+<div class="pilha-grande">
+  <section class="destaque" aria-labelledby="titulo-evento">
+    <div>
+      <span class="selo"><%= evento.edicao %>ª edição · IFPR Campus Pinhais</span>
+      <h1 class="destaque__titulo" id="titulo-evento"><%= evento.nome %></h1>
+      <p class="destaque__texto"><%= evento.descricao %></p>
+      <div class="acoes">
+        <% if (destinoDaInscricao) { %>
+        <a class="botao botao--principal" href="<%= destinoDaInscricao %>">Inscrever minha equipe</a>
+        <% } %>
+        <a class="botao botao--secundario" href="/agenda">Ver agenda</a>
+      </div>
+    </div>
+
+    <aside class="card card--espacoso" aria-labelledby="titulo-informacoes">
+      <h2 class="card__titulo" id="titulo-informacoes">Informações</h2>
+      <dl class="definicoes">
+        <dt>Data</dt>
+        <dd><%= datas.formatarData(evento.dataHora) %>, <%= datas.formatarHora(evento.dataHora) %></dd>
+        <dt>Local</dt>
+        <dd><%= evento.local %></dd>
+        <dt>Equipes</dt>
+        <dd><%= evento.minIntegrantes %> a <%= evento.maxIntegrantes %> integrantes</dd>
+        <dt>Inscrições</dt>
+        <dd><%= inscricoesAbertas ? 'Até ' + datas.formatarDiaMes(evento.prazoInscricao) : 'Encerradas' %></dd>
+      </dl>
+    </aside>
+  </section>
+
+  <section aria-labelledby="titulo-como-participar">
+    <h2 class="secao-titulo" id="titulo-como-participar">Como participar</h2>
+    <ol class="grade-3" role="list">
+      <li class="card">
+        <span class="card__rotulo">Passo 1</span>
+        <h3 class="card__titulo">Crie sua conta</h3>
+        <p>Use seu e-mail institucional. Cada integrante da equipe precisa de uma conta.</p>
+      </li>
+      <li class="card">
+        <span class="card__rotulo">Passo 2</span>
+        <h3 class="card__titulo">Inscreva a equipe</h3>
+        <p>Quem cria a equipe vira líder e adiciona os colegas pelo e-mail até <%= datas.formatarDiaMes(evento.prazoInscricao) %>.</p>
+      </li>
+      <li class="card">
+        <span class="card__rotulo">Passo 3</span>
+        <h3 class="card__titulo">Envie o projeto</h3>
+        <p>Depois da aprovação, mande o link do repositório até <%= datas.formatarDataHora(evento.prazoEntrega) %>.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="titulo-avisos">
+    <div class="cabecalho-pagina">
+      <h2 id="titulo-avisos">Últimos avisos</h2>
+      <a href="/agenda">Ver todos os avisos</a>
+    </div>
+    <% if (ultimosAvisos.length === 0) { %>
+    <div class="vazio"><p>Nenhum aviso publicado ainda.</p></div>
+    <% } else { %>
+    <ul class="grade-3" role="list">
+      <% for (const aviso of ultimosAvisos) { %>
+      <li class="card">
+        <span class="card__rotulo"><time datetime="<%= aviso.publicadoEm.toISOString() %>"><%= datas.formatarData(aviso.publicadoEm) %></time></span>
+        <h3 class="card__titulo"><%= aviso.titulo %></h3>
+        <p><%= aviso.texto %></p>
+      </li>
+      <% } %>
+    </ul>
+    <% } %>
+  </section>
+</div>

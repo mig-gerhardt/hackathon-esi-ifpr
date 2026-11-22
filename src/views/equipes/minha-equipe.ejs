@@ -1,0 +1,135 @@
+<div class="cabecalho-pagina">
+  <div>
+    <h1>Minha equipe</h1>
+    <p>
+      <% if (inscricoesAbertas) { %>
+      Inscrições abertas até <%= datas.formatarDataHora(evento.prazoInscricao) %>. Equipes de <%= evento.minIntegrantes %> a <%= evento.maxIntegrantes %> integrantes.
+      <% } else { %>
+      As inscrições terminaram em <%= datas.formatarDataHora(evento.prazoInscricao) %>.
+      <% } %>
+    </p>
+  </div>
+</div>
+
+<% if (!equipe) { %>
+  <% if (inscricoesAbertas) { %>
+  <section class="card card--espacoso coluna-estreita" aria-labelledby="titulo-criar">
+    <h2 id="titulo-criar">Criar equipe</h2>
+    <p class="texto-suave">Quem cria a equipe vira o líder e adiciona os colegas pelo e-mail cadastrado no site.</p>
+    <form method="post" action="/minha-equipe" class="formulario" novalidate>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <%- include('../partials/campo', { nome: 'nome', rotulo: 'Nome da equipe', obrigatorio: true }) %>
+      <button type="submit" class="botao botao--principal">Criar equipe</button>
+    </form>
+  </section>
+  <% } else { %>
+  <div class="vazio"><p>Você não faz parte de nenhuma equipe e o prazo de inscrição terminou.</p></div>
+  <% } %>
+<% } else {
+  const podeAlterar = ehLider && inscricoesAbertas;
+  const vagas = evento.maxIntegrantes - equipe.membros.length;
+  const faltam = evento.minIntegrantes - equipe.membros.length;
+%>
+<div class="pilha-grande">
+  <section class="card card--espacoso" aria-labelledby="titulo-equipe">
+    <div class="acoes acoes--entre">
+      <h2 id="titulo-equipe"><%= equipe.nome %></h2>
+      <%- include('../partials/etiqueta-status', { status: equipe.status }) %>
+    </div>
+    <% if (equipe.status === STATUS_EQUIPE.PENDENTE) { %>
+    <p class="texto-suave">A comissão ainda vai analisar a inscrição.<% if (faltam > 0) { %> Para ser aprovada, a equipe precisa de mais <%= faltam %> integrante(s).<% } %></p>
+    <% } else if (equipe.status === STATUS_EQUIPE.APROVADA) { %>
+    <p class="texto-suave">Inscrição aprovada. Envie o link do projeto até <%= datas.formatarDataHora(evento.prazoEntrega) %>.</p>
+    <% } else { %>
+    <p class="texto-suave">A inscrição foi recusada pela comissão.<% if (equipe.motivoRecusa) { %> Motivo: <%= equipe.motivoRecusa %><% } %></p>
+    <% } %>
+
+    <% if (podeAlterar) { %>
+    <form method="post" action="/minha-equipe/editar" class="formulario-em-linha" novalidate>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <%- include('../partials/campo', { nome: 'nome', idCampo: 'nome-equipe', rotulo: 'Nome da equipe', valor: valores.nome ?? equipe.nome, obrigatorio: true }) %>
+      <button type="submit" class="botao botao--secundario">Salvar nome</button>
+    </form>
+    <% } %>
+  </section>
+
+  <section aria-labelledby="titulo-membros">
+    <h2 id="titulo-membros">Integrantes (<%= equipe.membros.length %> de <%= evento.maxIntegrantes %>)</h2>
+    <ul class="membros">
+      <% for (const membro of equipe.membros) { %>
+      <li>
+        <span>
+          <%= membro.nome %>
+          <span class="texto-suave texto-pequeno"> · <%= membro.email %></span>
+          <% if (membro.id === equipe.liderId) { %><span class="etiqueta etiqueta--neutra">Líder</span><% } %>
+        </span>
+        <% if (podeAlterar && membro.id !== equipe.liderId) { %>
+        <form method="post" action="/minha-equipe/membros/<%= membro.id %>/remover">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit" class="botao-link botao-link--perigo">Remover<span class="visualmente-oculto"> <%= membro.nome %></span></button>
+        </form>
+        <% } %>
+      </li>
+      <% } %>
+    </ul>
+
+    <% if (podeAlterar && vagas > 0) { %>
+    <form method="post" action="/minha-equipe/membros" class="formulario-em-linha" novalidate>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <%- include('../partials/campo', { nome: 'email', rotulo: 'Adicionar integrante pelo e-mail', tipo: 'email', placeholder: 'nome@estudantes.ifpr.edu.br', ajuda: 'A pessoa precisa ter uma conta no site.' }) %>
+      <button type="submit" class="botao botao--secundario">Adicionar</button>
+    </form>
+    <% } %>
+  </section>
+
+  <section class="card" aria-labelledby="titulo-projeto">
+    <h2 id="titulo-projeto">Projeto</h2>
+    <% if (equipe.projeto) { %>
+    <p>
+      <a href="<%= equipe.projeto.linkRepositorio %>" rel="noopener noreferrer" target="_blank"><%= equipe.projeto.linkRepositorio %><span class="visualmente-oculto"> (abre em nova aba)</span></a>
+      <br><span class="texto-suave texto-pequeno">Enviado em <%= datas.formatarDataHora(equipe.projeto.enviadoEm) %><% if (equipe.projeto.atualizadoEm > equipe.projeto.enviadoEm) { %>, atualizado em <%= datas.formatarDataHora(equipe.projeto.atualizadoEm) %><% } %></span>
+    </p>
+    <% } %>
+    <% if (equipe.status !== STATUS_EQUIPE.APROVADA) { %>
+    <p class="texto-suave">O envio do projeto é liberado quando a comissão aprovar a equipe.</p>
+    <% } else if (!entregasAbertas) { %>
+    <p class="texto-suave">O prazo de entrega terminou em <%= datas.formatarDataHora(evento.prazoEntrega) %>.</p>
+    <% } else { %>
+    <form method="post" action="/minha-equipe/projeto" class="formulario-em-linha" novalidate>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <%- include('../partials/campo', { nome: 'linkRepositorio', rotulo: 'Link do repositório', tipo: 'url', placeholder: 'https://github.com/sua-equipe/projeto', valor: valores.linkRepositorio ?? equipe.projeto?.linkRepositorio ?? '', ajuda: 'Pode ser trocado até ' + datas.formatarDataHora(evento.prazoEntrega) + '.' }) %>
+      <button type="submit" class="botao botao--principal"><%= equipe.projeto ? 'Atualizar link' : 'Enviar projeto' %></button>
+    </form>
+    <% } %>
+  </section>
+
+  <% if (inscricoesAbertas) { %>
+  <section aria-labelledby="titulo-gerenciar">
+    <h2 id="titulo-gerenciar">Gerenciar</h2>
+    <% if (ehLider) { %>
+      <% if (equipe.membros.length > 1) { %>
+      <form method="post" action="/minha-equipe/lideranca" class="formulario-em-linha" novalidate>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="campo<%= erros.novoLiderId ? ' campo--erro' : '' %>">
+          <label class="campo__rotulo" for="novoLiderId">Transferir a liderança para</label>
+          <select class="campo__entrada" id="novoLiderId" name="novoLiderId"<% if (erros.novoLiderId) { %> aria-invalid="true" aria-describedby="novoLiderId-erro"<% } %>>
+            <% for (const membro of equipe.membros.filter((m) => m.id !== equipe.liderId)) { %>
+            <option value="<%= membro.id %>"><%= membro.nome %></option>
+            <% } %>
+          </select>
+          <% if (erros.novoLiderId) { %><p class="campo__erro" id="novoLiderId-erro"><%= erros.novoLiderId %></p><% } %>
+        </div>
+        <button type="submit" class="botao botao--secundario">Transferir</button>
+      </form>
+      <% } %>
+      <p class="texto-pequeno"><a href="/minha-equipe/excluir">Excluir a equipe</a></p>
+    <% } else { %>
+      <form method="post" action="/minha-equipe/sair">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit" class="botao botao--secundario">Sair da equipe</button>
+      </form>
+    <% } %>
+  </section>
+  <% } %>
+</div>
+<% } %>

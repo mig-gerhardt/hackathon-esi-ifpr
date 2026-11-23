@@ -1,0 +1,41 @@
+<%- include('../partials/menu-comissao') %>
+<div class="cabecalho-pagina">
+  <div>
+    <h1><%= titulo %></h1>
+    <p>Itens exibidos na página pública <a href="/agenda">Agenda</a>.</p>
+  </div>
+  <a class="botao botao--principal" href="/comissao/agenda/novo">Novo item</a>
+</div>
+
+<% if (itens.length === 0) { %>
+<div class="vazio"><p>Nenhum item na agenda.</p></div>
+<% } else { %>
+<div class="tabela-rolavel">
+  <table class="tabela">
+    <caption class="visualmente-oculto">Itens da agenda</caption>
+    <thead>
+      <tr>
+        <th scope="col">Dia</th>
+        <th scope="col">Horário</th>
+        <th scope="col">Título</th>
+        <th scope="col">Local</th>
+        <th scope="col"><span class="visualmente-oculto">Ações</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const item of itens) { %>
+      <tr>
+        <td><%= datas.formatarData(item.inicio) %></td>
+        <td><%= datas.formatarHora(item.inicio) %>–<%= datas.formatarHora(item.fim) %></td>
+        <td><%= item.titulo %></td>
+        <td><%= item.local || '—' %></td>
+        <td class="acoes">
+          <a href="/comissao/agenda/<%= item.id %>/editar">Editar<span class="visualmente-oculto"> <%= item.titulo %></span></a>
+          <a href="/comissao/agenda/<%= item.id %>/excluir">Excluir<span class="visualmente-oculto"> <%= item.titulo %></span></a>
+        </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+<% } %>

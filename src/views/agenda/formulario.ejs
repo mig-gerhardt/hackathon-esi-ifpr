@@ -1,0 +1,18 @@
+<%- include('../partials/menu-comissao') %>
+<section class="coluna-estreita">
+  <span class="sobretitulo"><a href="/comissao/agenda">Agenda do evento</a></span>
+  <h1><%= titulo %></h1>
+  <p class="subtitulo">Datas e horários no horário de Brasília.</p>
+  <form method="post" action="<%= acao %>" class="formulario card" novalidate>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <%- include('../partials/campo', { nome: 'titulo', rotulo: 'Título', obrigatorio: true }) %>
+    <%- include('../partials/campo', { nome: 'inicio', rotulo: 'Início', tipo: 'datetime-local', obrigatorio: true }) %>
+    <%- include('../partials/campo', { nome: 'fim', rotulo: 'Fim', tipo: 'datetime-local', obrigatorio: true }) %>
+    <%- include('../partials/campo', { nome: 'local', rotulo: 'Local (opcional)' }) %>
+    <%- include('../partials/campo', { nome: 'descricao', rotulo: 'Descrição (opcional)', multilinha: true }) %>
+    <div class="acoes">
+      <button type="submit" class="botao botao--principal">Salvar</button>
+      <a class="botao botao--secundario" href="/comissao/agenda">Cancelar</a>
+    </div>
+  </form>
+</section>

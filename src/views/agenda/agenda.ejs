@@ -1,0 +1,65 @@
+<div class="cabecalho-pagina">
+  <div>
+    <h1>Agenda</h1>
+    <p><%= evento.nome %> · <%= evento.local %></p>
+  </div>
+</div>
+
+<div class="agenda">
+  <section aria-labelledby="titulo-programacao">
+    <h2 class="visualmente-oculto" id="titulo-programacao">Programação</h2>
+    <% if (dias.length === 0) { %>
+    <div class="vazio"><p>A programação ainda não foi divulgada.</p></div>
+    <% } %>
+    <% for (const grupo of dias) { %>
+    <div class="agenda__dia">
+      <h3 class="secao-titulo"><%= datas.formatarDiaPorExtenso(grupo.dia) %></h3>
+      <ol class="agenda__lista">
+        <% for (const item of grupo.itens) {
+          const agora = destaques.idsAcontecendoAgora.includes(item.id);
+          const proximo = destaques.idProximo === item.id;
+        %>
+        <li class="agenda__item<%= agora ? ' agenda__item--agora' : '' %>">
+          <div class="agenda__horario">
+            <time datetime="<%= item.inicio.toISOString() %>"><%= datas.formatarHora(item.inicio) %></time>
+            –
+            <time datetime="<%= item.fim.toISOString() %>"><%= datas.formatarHora(item.fim) %></time>
+          </div>
+          <div>
+            <h4 class="card__titulo">
+              <%= item.titulo %>
+              <% if (agora) { %><span class="etiqueta etiqueta--aprovada">Acontecendo agora</span><% } %>
+              <% if (proximo) { %><span class="etiqueta etiqueta--neutra">Próximo</span><% } %>
+            </h4>
+            <% if (item.local || item.descricao) { %>
+            <p><%= [item.local, item.descricao].filter(Boolean).join(' · ') %></p>
+            <% } %>
+          </div>
+        </li>
+        <% } %>
+      </ol>
+    </div>
+    <% } %>
+  </section>
+
+  <section aria-labelledby="titulo-mural">
+    <h2 id="titulo-mural" class="secao-titulo">Mural de avisos</h2>
+    <% if (avisos.length === 0) { %>
+    <div class="vazio"><p>Nenhum aviso por enquanto.</p></div>
+    <% } else { %>
+    <ul class="mural">
+      <% for (const aviso of avisos) { %>
+      <li class="card">
+        <h3>
+          <% if (aviso.fixado) { %><%- include('../partials/icone', { nome: 'fixado' }) %><span class="visualmente-oculto">Fixado:</span><% } %>
+          <%= aviso.titulo %>
+        </h3>
+        <time datetime="<%= aviso.publicadoEm.toISOString() %>"><%= datas.formatarDataHora(aviso.publicadoEm) %></time>
+        <% if (aviso.urgente) { %><p><span class="etiqueta etiqueta--urgente">Urgente</span></p><% } %>
+        <p><%= aviso.texto %></p>
+      </li>
+      <% } %>
+    </ul>
+    <% } %>
+  </section>
+</div>

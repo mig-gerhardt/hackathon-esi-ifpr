@@ -1,0 +1,18 @@
+<%- include('../partials/menu-comissao') %>
+<section class="coluna-estreita">
+  <span class="sobretitulo"><a href="/comissao/criterios">Critérios</a></span>
+  <h1><%= titulo %></h1>
+  <% if (locals.bloqueado) { %>
+  <div class="alerta alerta--alerta" role="status"><p>Este critério já tem notas lançadas e não pode mais ser alterado.</p></div>
+  <% } %>
+  <form method="post" action="<%= acao %>" class="formulario card" novalidate>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <%- include('../partials/campo', { nome: 'nome', rotulo: 'Nome', obrigatorio: true }) %>
+    <%- include('../partials/campo', { nome: 'descricao', rotulo: 'Descrição (opcional)', multilinha: true, ajuda: 'O que o jurado deve observar.' }) %>
+    <%- include('../partials/campo', { nome: 'peso', rotulo: 'Peso', tipo: 'number', min: pesoMinimo, max: pesoMaximo, passo: 1, ajuda: 'Número inteiro de ' + pesoMinimo + ' a ' + pesoMaximo + '. Quanto maior, mais o critério conta na nota final.', obrigatorio: true }) %>
+    <div class="acoes">
+      <button type="submit" class="botao botao--principal">Salvar</button>
+      <a class="botao botao--secundario" href="/comissao/criterios">Cancelar</a>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,46 @@
+<%- include('../partials/menu-comissao') %>
+<div class="cabecalho-pagina">
+  <div>
+    <h1><%= titulo %></h1>
+    <p>Depois que um critério recebe nota, ele não pode mais ser alterado nem excluído.</p>
+  </div>
+  <a class="botao botao--principal" href="/comissao/criterios/novo">Novo critério</a>
+</div>
+
+<% if (criterios.length === 0) { %>
+<div class="vazio"><p>Nenhum critério cadastrado. Os jurados só conseguem avaliar depois que houver critérios.</p></div>
+<% } else { %>
+<div class="tabela-rolavel">
+  <table class="tabela">
+    <caption class="visualmente-oculto">Critérios de avaliação</caption>
+    <thead>
+      <tr>
+        <th scope="col">Critério</th>
+        <th scope="col" class="numerico">Peso</th>
+        <th scope="col" class="numerico">Notas lançadas</th>
+        <th scope="col"><span class="visualmente-oculto">Ações</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const criterio of criterios) { %>
+      <tr>
+        <td>
+          <%= criterio.nome %>
+          <% if (criterio.descricao) { %><br><span class="texto-suave texto-pequeno"><%= criterio.descricao %></span><% } %>
+        </td>
+        <td class="numerico"><%= criterio.peso %></td>
+        <td class="numerico"><%= criterio._count.notas %></td>
+        <td class="acoes">
+          <% if (criterio._count.notas === 0) { %>
+          <a href="/comissao/criterios/<%= criterio.id %>/editar">Editar<span class="visualmente-oculto"> <%= criterio.nome %></span></a>
+          <a href="/comissao/criterios/<%= criterio.id %>/excluir">Excluir<span class="visualmente-oculto"> <%= criterio.nome %></span></a>
+          <% } else { %>
+          <span class="etiqueta etiqueta--neutra">Travado</span>
+          <% } %>
+        </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+<% } %>

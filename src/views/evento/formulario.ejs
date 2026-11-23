@@ -1,0 +1,46 @@
+<%- include('../partials/menu-comissao') %>
+<div class="cabecalho-pagina">
+  <div>
+    <h1>Configuração do evento</h1>
+    <p>Estes dados aparecem na página inicial e definem os prazos e limites do sistema. Horário de Brasília.</p>
+  </div>
+</div>
+
+<form method="post" action="/comissao/evento" class="formulario" novalidate>
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="grade-2">
+    <div class="card"><fieldset class="formulario">
+      <legend>Evento</legend>
+      <%- include('../partials/campo', { nome: 'nome', rotulo: 'Nome do evento', obrigatorio: true }) %>
+      <%- include('../partials/campo', { nome: 'edicao', rotulo: 'Edição', tipo: 'number', min: 1, passo: 1, obrigatorio: true }) %>
+      <%- include('../partials/campo', { nome: 'dataHora', rotulo: 'Data e horário de início', tipo: 'datetime-local', obrigatorio: true }) %>
+      <%- include('../partials/campo', { nome: 'local', rotulo: 'Local', obrigatorio: true }) %>
+      <%- include('../partials/campo', { nome: 'descricao', rotulo: 'Descrição curta', multilinha: true, obrigatorio: true }) %>
+    </fieldset></div>
+
+    <div class="pilha">
+      <div class="card"><fieldset class="formulario">
+        <legend>Prazos</legend>
+        <%- include('../partials/campo', { nome: 'prazoInscricao', rotulo: 'Prazo de inscrição', tipo: 'datetime-local', ajuda: 'Até aqui as equipes podem ser criadas e alteradas.', obrigatorio: true }) %>
+        <%- include('../partials/campo', { nome: 'prazoEntrega', rotulo: 'Prazo de entrega do projeto', tipo: 'datetime-local', obrigatorio: true }) %>
+      </fieldset></div>
+
+      <div class="card"><fieldset class="formulario">
+        <legend>Equipes</legend>
+        <div class="grade-2">
+          <%- include('../partials/campo', { nome: 'minIntegrantes', rotulo: 'Mínimo de integrantes', tipo: 'number', min: 1, passo: 1, obrigatorio: true }) %>
+          <%- include('../partials/campo', { nome: 'maxIntegrantes', rotulo: 'Máximo de integrantes', tipo: 'number', min: 1, passo: 1, obrigatorio: true }) %>
+        </div>
+      </fieldset></div>
+
+      <div class="card"><fieldset class="formulario">
+        <legend>Avaliação</legend>
+        <%- include('../partials/caixa-selecao', { nome: 'avaliacaoAberta', rotulo: 'Avaliação aberta', ajuda: 'Os jurados podem lançar notas.' }) %>
+        <%- include('../partials/caixa-selecao', { nome: 'resultadoPublicado', rotulo: 'Resultado publicado', ajuda: 'O ranking aparece para todos em Resultados.' }) %>
+      </fieldset></div>
+    </div>
+  </div>
+  <div class="acoes">
+    <button type="submit" class="botao botao--principal">Salvar configuração</button>
+  </div>
+</form>

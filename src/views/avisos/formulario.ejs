@@ -1,0 +1,23 @@
+<%- include('../partials/menu-comissao') %>
+<section class="coluna-estreita">
+  <span class="sobretitulo"><a href="/comissao/avisos">Avisos</a></span>
+  <h1><%= titulo %></h1>
+  <p class="subtitulo">O título curto aparece na faixa de aviso quando o aviso é urgente.</p>
+  <form method="post" action="<%= acao %>" class="formulario card" novalidate>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <%- include('../partials/campo', { nome: 'titulo', rotulo: 'Título', obrigatorio: true }) %>
+    <%- include('../partials/campo', { nome: 'texto', rotulo: 'Texto', multilinha: true, obrigatorio: true }) %>
+    <%- include('../partials/campo', { nome: 'publicadoEm', rotulo: 'Data de publicação', tipo: 'datetime-local', ajuda: 'Uma data futura agenda o aviso: ele só aparece no site a partir dela.', obrigatorio: true }) %>
+    <fieldset>
+      <legend>Marcações</legend>
+      <div class="formulario">
+        <%- include('../partials/caixa-selecao', { nome: 'fixado', rotulo: 'Fixado', ajuda: 'Fica no topo do mural.' }) %>
+        <%- include('../partials/caixa-selecao', { nome: 'urgente', rotulo: 'Urgente', ajuda: 'Aparece na faixa abaixo do cabeçalho de todas as páginas.' }) %>
+      </div>
+    </fieldset>
+    <div class="acoes">
+      <button type="submit" class="botao botao--principal">Salvar</button>
+      <a class="botao botao--secundario" href="/comissao/avisos">Cancelar</a>
+    </div>
+  </form>
+</section>

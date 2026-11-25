@@ -1,0 +1,16 @@
+<%- include('../partials/menu-comissao') %>
+<section class="coluna-estreita">
+  <span class="sobretitulo"><a href="/comissao/usuarios">Usuários</a></span>
+  <h1>Novo jurado</h1>
+  <p class="subtitulo">A pessoa entra com este e-mail e a senha inicial.</p>
+  <form method="post" action="/comissao/usuarios/novo-jurado" class="formulario card" novalidate>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <%- include('../partials/campo', { nome: 'nome', rotulo: 'Nome completo', obrigatorio: true }) %>
+    <%- include('../partials/campo', { nome: 'email', rotulo: 'E-mail', tipo: 'email', placeholder: 'nome@ifpr.edu.br', obrigatorio: true }) %>
+    <%- include('../partials/campo', { nome: 'senha', rotulo: 'Senha inicial', tipo: 'password', autocomplete: 'new-password', ajuda: 'Pelo menos 8 caracteres.', obrigatorio: true, valor: '' }) %>
+    <div class="acoes">
+      <button type="submit" class="botao botao--principal">Criar jurado</button>
+      <a class="botao botao--secundario" href="/comissao/usuarios">Cancelar</a>
+    </div>
+  </form>
+</section>

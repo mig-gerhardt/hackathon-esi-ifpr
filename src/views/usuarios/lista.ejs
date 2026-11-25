@@ -1,0 +1,56 @@
+<%- include('../partials/menu-comissao') %>
+<div class="cabecalho-pagina">
+  <div>
+    <h1><%= titulo %></h1>
+    <p>Novas contas pelo cadastro do site são de participante. Jurados são criados aqui.</p>
+  </div>
+  <a class="botao botao--principal" href="/comissao/usuarios/novo-jurado">Novo jurado</a>
+</div>
+
+<nav aria-label="Filtrar por papel">
+  <ul class="filtros">
+    <li><a href="/comissao/usuarios"<% if (!papelSelecionado) { %> aria-current="page"<% } %>>Todos</a></li>
+    <% for (const papel of Object.values(PAPEIS)) { %>
+    <li><a href="/comissao/usuarios?papel=<%= papel %>"<% if (papelSelecionado === papel) { %> aria-current="page"<% } %>><%= NOMES_DOS_PAPEIS[papel] %></a></li>
+    <% } %>
+  </ul>
+</nav>
+
+<% if (usuarios.length === 0) { %>
+<div class="vazio"><p>Nenhum usuário encontrado.</p></div>
+<% } else { %>
+<div class="tabela-rolavel">
+  <table class="tabela">
+    <caption class="visualmente-oculto">Usuários cadastrados</caption>
+    <thead>
+      <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">E-mail</th>
+        <th scope="col">Equipe</th>
+        <th scope="col">Papel</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const pessoa of usuarios) { %>
+      <tr>
+        <td><%= pessoa.nome %><% if (pessoa.id === usuarioAtual.id) { %> <span class="texto-suave texto-pequeno">(você)</span><% } %></td>
+        <td><%= pessoa.email %></td>
+        <td><% if (pessoa.equipe) { %><a href="/comissao/equipes/<%= pessoa.equipe.id %>"><%= pessoa.equipe.nome %></a><% } else { %>—<% } %></td>
+        <td>
+          <form method="post" action="/comissao/usuarios/<%= pessoa.id %>/papel" class="acoes">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <label class="visualmente-oculto" for="papel-<%= pessoa.id %>">Papel de <%= pessoa.nome %></label>
+            <select class="campo__entrada botao--pequeno" id="papel-<%= pessoa.id %>" name="papel">
+              <% for (const papel of Object.values(PAPEIS)) { %>
+              <option value="<%= papel %>"<% if (pessoa.papel === papel) { %> selected<% } %>><%= NOMES_DOS_PAPEIS[papel] %></option>
+              <% } %>
+            </select>
+            <button type="submit" class="botao-link">Alterar<span class="visualmente-oculto"> papel de <%= pessoa.nome %></span></button>
+          </form>
+        </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+<% } %>

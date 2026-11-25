@@ -1,0 +1,20 @@
+<%
+  const linksDaComissao = [
+    { href: '/comissao', rotulo: 'Resumo' },
+    { href: '/comissao/equipes', rotulo: 'Equipes' },
+    { href: '/comissao/agenda', rotulo: 'Agenda' },
+    { href: '/comissao/avisos', rotulo: 'Avisos' },
+    { href: '/comissao/criterios', rotulo: 'Critérios' },
+    { href: '/comissao/avaliacao', rotulo: 'Avaliação' },
+    { href: '/comissao/usuarios', rotulo: 'Usuários' },
+    { href: '/comissao/evento', rotulo: 'Configuração do evento' },
+  ];
+  const ativo = (href) => href === '/comissao' ? caminhoAtual === '/comissao' : caminhoAtual.startsWith(href);
+%>
+<nav class="menu-secundario" aria-label="Seções da comissão">
+  <ul>
+    <% for (const link of linksDaComissao) { %>
+    <li><a href="<%= link.href %>"<% if (ativo(link.href)) { %> aria-current="page"<% } %>><%= link.rotulo %></a></li>
+    <% } %>
+  </ul>
+</nav>

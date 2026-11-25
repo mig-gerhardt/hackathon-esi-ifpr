@@ -1,0 +1,72 @@
+<%- include('../partials/menu-comissao') %>
+<div class="cabecalho-pagina">
+  <div>
+    <h1>Painel da comissão</h1>
+    <p>Inscrições até <%= datas.formatarDataHora(evento.prazoInscricao) %> · Entrega até <%= datas.formatarDataHora(evento.prazoEntrega) %></p>
+  </div>
+</div>
+
+<div class="pilha-grande">
+  <section aria-labelledby="titulo-equipes">
+    <h2 id="titulo-equipes" class="secao-titulo">Equipes</h2>
+    <ul class="grade-4" role="list">
+      <li class="card">
+        <span class="card__rotulo">Pendentes</span>
+        <span class="numero"><%= resumo.equipesPorStatus.PENDENTE %></span>
+        <a class="texto-pequeno" href="/comissao/equipes?status=PENDENTE">Analisar</a>
+      </li>
+      <li class="card">
+        <span class="card__rotulo">Aprovadas</span>
+        <span class="numero"><%= resumo.equipesPorStatus.APROVADA %></span>
+        <a class="texto-pequeno" href="/comissao/equipes?status=APROVADA">Ver lista</a>
+      </li>
+      <li class="card">
+        <span class="card__rotulo">Recusadas</span>
+        <span class="numero"><%= resumo.equipesPorStatus.RECUSADA %></span>
+        <a class="texto-pequeno" href="/comissao/equipes?status=RECUSADA">Ver lista</a>
+      </li>
+      <li class="card">
+        <span class="card__rotulo">Projetos enviados</span>
+        <span class="numero"><%= resumo.projetosEnviados %></span>
+        <span class="texto-pequeno texto-suave">de <%= resumo.equipesPorStatus.APROVADA %> aprovada(s)</span>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="titulo-avaliacao">
+    <h2 id="titulo-avaliacao" class="secao-titulo">Avaliação</h2>
+    <ul class="grade-4" role="list">
+      <li class="card">
+        <span class="card__rotulo">Jurados</span>
+        <span class="numero"><%= resumo.quantidadeDeJurados %></span>
+        <a class="texto-pequeno" href="/comissao/usuarios?papel=JURADO">Gerenciar</a>
+      </li>
+      <li class="card">
+        <span class="card__rotulo">Avaliações concluídas</span>
+        <span class="numero"><%= resumo.avaliacao.avaliacoesConcluidas %></span>
+      </li>
+      <li class="card">
+        <span class="card__rotulo">Avaliações pendentes</span>
+        <span class="numero"><%= resumo.avaliacao.avaliacoesPendentes %></span>
+        <a class="texto-pequeno" href="/comissao/avaliacao">Ver andamento</a>
+      </li>
+      <li class="card">
+        <span class="card__rotulo">Situação</span>
+        <p class="texto-pequeno">
+          Avaliação <%= evento.avaliacaoAberta ? 'aberta' : 'fechada' %>.<br>
+          Resultado <%= evento.resultadoPublicado ? 'publicado' : 'não publicado' %>.
+        </p>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="titulo-atalhos">
+    <h2 id="titulo-atalhos" class="secao-titulo">Atalhos</h2>
+    <div class="acoes">
+      <a class="botao botao--secundario" href="/comissao/avisos/novo">Publicar aviso</a>
+      <a class="botao botao--secundario" href="/comissao/agenda/novo">Adicionar à agenda</a>
+      <a class="botao botao--secundario" href="/comissao/usuarios/novo-jurado">Criar conta de jurado</a>
+      <a class="botao botao--secundario" href="/resultados">Ver ranking</a>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,62 @@
+<%- include('../partials/menu-comissao') %>
+<div class="cabecalho-pagina">
+  <div>
+    <h1>Avaliação</h1>
+    <p><%= resumo.quantidadeDeEquipes %> equipe(s) aprovada(s), <%= resumo.quantidadeDeCriterios %> critério(s), <%= resumo.jurados.length %> jurado(s).</p>
+  </div>
+  <a class="botao botao--secundario" href="/resultados">Ver ranking</a>
+</div>
+
+<div class="grade-2">
+  <section class="card" aria-labelledby="titulo-periodo">
+    <span class="card__rotulo">Período de avaliação</span>
+    <h2 class="card__titulo" id="titulo-periodo"><%= evento.avaliacaoAberta ? 'Aberto' : 'Fechado' %></h2>
+    <p><%= evento.avaliacaoAberta ? 'Os jurados podem lançar e alterar notas.' : 'Os jurados não conseguem lançar notas.' %></p>
+    <form method="post" action="/comissao/avaliacao/<%= evento.avaliacaoAberta ? 'fechar' : 'abrir' %>">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button type="submit" class="botao <%= evento.avaliacaoAberta ? 'botao--secundario' : 'botao--principal' %>"><%= evento.avaliacaoAberta ? 'Fechar avaliação' : 'Abrir avaliação' %></button>
+    </form>
+  </section>
+
+  <section class="card" aria-labelledby="titulo-resultado">
+    <span class="card__rotulo">Resultado</span>
+    <h2 class="card__titulo" id="titulo-resultado"><%= evento.resultadoPublicado ? 'Publicado' : 'Não publicado' %></h2>
+    <p><%= evento.resultadoPublicado ? 'Qualquer pessoa vê o ranking em Resultados.' : 'Só a comissão vê o ranking, como prévia.' %></p>
+    <form method="post" action="/comissao/avaliacao/<%= evento.resultadoPublicado ? 'ocultar-resultado' : 'publicar-resultado' %>">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button type="submit" class="botao <%= evento.resultadoPublicado ? 'botao--secundario' : 'botao--principal' %>"><%= evento.resultadoPublicado ? 'Tirar do ar' : 'Publicar resultado' %></button>
+    </form>
+  </section>
+</div>
+
+<section class="pilha" aria-labelledby="titulo-jurados">
+  <h2 id="titulo-jurados">Andamento por jurado</h2>
+  <p class="texto-suave"><%= resumo.avaliacoesConcluidas %> avaliação(ões) concluída(s), <%= resumo.avaliacoesPendentes %> pendente(s).</p>
+  <% if (resumo.jurados.length === 0) { %>
+  <div class="vazio"><p>Nenhum jurado cadastrado. <a href="/comissao/usuarios/novo-jurado">Criar conta de jurado</a></p></div>
+  <% } else { %>
+  <div class="tabela-rolavel">
+    <table class="tabela">
+      <caption class="visualmente-oculto">Andamento da avaliação por jurado</caption>
+      <thead>
+        <tr>
+          <th scope="col">Jurado</th>
+          <th scope="col" class="numerico">Avaliadas</th>
+          <th scope="col" class="numerico">Parciais</th>
+          <th scope="col" class="numerico">Pendentes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (const jurado of resumo.jurados) { %>
+        <tr>
+          <td><%= jurado.nome %></td>
+          <td class="numerico"><%= jurado.avaliadas %></td>
+          <td class="numerico"><%= jurado.parciais %></td>
+          <td class="numerico"><%= jurado.pendentes %></td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+  <% } %>
+</section>

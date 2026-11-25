@@ -1,0 +1,57 @@
+<div class="cabecalho-pagina">
+  <div>
+    <span class="sobretitulo"><a href="/jurado">Painel do jurado</a></span>
+    <h1><%= equipe.nome %></h1>
+    <p>
+      <%= equipe.membros.map((membro) => membro.nome).join(', ') %>
+    </p>
+  </div>
+  <% if (equipe.projeto) { %>
+  <a class="botao botao--secundario" href="<%= equipe.projeto.linkRepositorio %>" rel="noopener noreferrer" target="_blank">
+    Abrir repositório<span class="visualmente-oculto"> (abre em nova aba)</span>
+    <%- include('../partials/icone', { nome: 'link-externo' }) %>
+  </a>
+  <% } %>
+</div>
+
+<% if (!evento.avaliacaoAberta) { %>
+<div class="alerta alerta--alerta" role="status"><p>A avaliação está fechada. As notas abaixo são só para consulta.</p></div>
+<% } %>
+
+<% if (criterios.length === 0) { %>
+<div class="vazio"><p>A comissão ainda não cadastrou os critérios de avaliação.</p></div>
+<% } else { %>
+<form method="post" action="/jurado/equipes/<%= equipe.id %>" class="formulario" novalidate>
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <fieldset<% if (!evento.avaliacaoAberta) { %> disabled<% } %>>
+    <legend>Notas de <%= notaMinima %> a <%= notaMaxima %>, com até uma casa decimal. Deixe em branco o que ainda não avaliou.</legend>
+    <ul class="notas">
+      <% for (const criterio of criterios) {
+        const campo = prefixoCampoNota + criterio.id;
+      %>
+      <li>
+        <div>
+          <h2 class="card__titulo"><%= criterio.nome %> <span class="texto-suave texto-pequeno">peso <%= criterio.peso %></span></h2>
+          <% if (criterio.descricao) { %><p><%= criterio.descricao %></p><% } %>
+        </div>
+        <%- include('../partials/campo', {
+          nome: 'notas[' + campo + ']',
+          idCampo: 'nota-' + criterio.id,
+          chaveDoErro: 'notas.' + campo,
+          rotulo: 'Nota em ' + criterio.nome,
+          tipo: 'number', min: notaMinima, max: notaMaxima, passo: '0.1', modoTeclado: 'decimal',
+          valor: valoresDasNotas[campo] ?? '',
+        }) %>
+      </li>
+      <% } %>
+    </ul>
+    <div class="formulario">
+      <%- include('../partials/campo', { nome: 'comentario', rotulo: 'Comentário para a equipe (opcional)', multilinha: true, valor: comentario ?? '' }) %>
+      <div class="acoes">
+        <button type="submit" class="botao botao--principal">Salvar avaliação</button>
+        <a class="botao botao--secundario" href="/jurado">Voltar</a>
+      </div>
+    </div>
+  </fieldset>
+</form>
+<% } %>

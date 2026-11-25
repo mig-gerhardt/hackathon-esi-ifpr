@@ -1,0 +1,46 @@
+<div class="cabecalho-pagina">
+  <div>
+    <h1>Painel do jurado</h1>
+    <p>Equipes aprovadas para avaliação. Dê uma nota de 0 a 10 em cada critério.</p>
+  </div>
+</div>
+
+<% if (!evento.avaliacaoAberta) { %>
+<div class="alerta alerta--alerta" role="status"><p>A avaliação está fechada. Você pode consultar as equipes, mas só consegue lançar notas quando a comissão abrir o período de avaliação.</p></div>
+<% } %>
+
+<% if (equipes.length === 0) { %>
+<div class="vazio"><p>Nenhuma equipe aprovada até agora.</p></div>
+<% } else { %>
+<div class="tabela-rolavel">
+  <table class="tabela">
+    <caption class="visualmente-oculto">Equipes para avaliar</caption>
+    <thead>
+      <tr>
+        <th scope="col">Equipe</th>
+        <th scope="col">Projeto</th>
+        <th scope="col" class="numerico">Notas dadas</th>
+        <th scope="col">Situação</th>
+        <th scope="col"><span class="visualmente-oculto">Ações</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const equipe of equipes) { %>
+      <tr>
+        <td><%= equipe.nome %></td>
+        <td>
+          <% if (equipe.projeto) { %>
+          <a href="<%= equipe.projeto.linkRepositorio %>" rel="noopener noreferrer" target="_blank">Repositório<span class="visualmente-oculto"> de <%= equipe.nome %> (abre em nova aba)</span></a>
+          <% } else { %>
+          <span class="texto-suave">Não enviado</span>
+          <% } %>
+        </td>
+        <td class="numerico"><%= equipe.notasDadas %> de <%= equipe.quantidadeDeCriterios %></td>
+        <td><span class="etiqueta etiqueta--<%= equipe.situacao.toLowerCase() %>"><%= NOMES_DAS_SITUACOES_AVALIACAO[equipe.situacao] %></span></td>
+        <td><a href="/jurado/equipes/<%= equipe.id %>"><%= evento.avaliacaoAberta ? 'Avaliar' : 'Ver' %><span class="visualmente-oculto"> <%= equipe.nome %></span></a></td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+<% } %>

@@ -1,0 +1,298 @@
+/* Ajustes específicos de algumas páginas. Todo o resto usa componentes.css. */
+
+/* ---------- Início ---------- */
+.destaque {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: var(--espaco-8);
+  align-items: start;
+}
+
+.destaque .selo {
+  margin-bottom: var(--espaco-5);
+}
+
+.destaque__titulo {
+  max-width: 24ch;
+  margin-bottom: var(--espaco-5);
+  font-size: var(--tamanho-titulo-1);
+  font-weight: var(--peso-regular);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+.destaque__texto {
+  max-width: 56ch;
+  margin-bottom: var(--espaco-6);
+  color: var(--texto-suave);
+  font-size: 1.0625rem;
+}
+
+.destaque .card {
+  margin-top: var(--espaco-2);
+}
+
+.secao-titulo {
+  margin-bottom: var(--espaco-5);
+}
+
+/* ---------- Entrar / Criar conta ---------- */
+.coluna-estreita {
+  max-width: var(--largura-formulario);
+  margin: 0 auto;
+}
+
+.coluna-estreita h1 {
+  margin-bottom: var(--espaco-1);
+}
+
+.coluna-estreita .subtitulo {
+  margin-bottom: var(--espaco-6);
+  color: var(--texto-suave);
+}
+
+.demonstracao {
+  margin-top: var(--espaco-5);
+  padding: var(--espaco-3) var(--espaco-4);
+  border: 1px dashed var(--borda);
+  border-radius: var(--raio-controle);
+  color: var(--texto-suave);
+  font-size: var(--tamanho-pequeno);
+}
+
+.demonstracao ul {
+  display: inline;
+  list-style: none;
+}
+
+.demonstracao li {
+  display: inline;
+}
+
+.demonstracao li + li::before {
+  content: ' · ';
+}
+
+/* ---------- Agenda ---------- */
+.agenda {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: var(--espaco-7);
+  align-items: start;
+}
+
+.agenda__dia + .agenda__dia {
+  margin-top: var(--espaco-6);
+}
+
+.agenda__lista {
+  list-style: none;
+  border-top: var(--linha);
+}
+
+.agenda__item {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: var(--espaco-4);
+  padding: var(--espaco-4) 0;
+  border-bottom: var(--linha);
+}
+
+.agenda__item--agora {
+  margin: 0 calc(-1 * var(--espaco-4));
+  padding-left: var(--espaco-4);
+  padding-right: var(--espaco-4);
+  background: var(--superficie);
+  border-left: 3px solid var(--sucesso);
+}
+
+.agenda__horario {
+  color: var(--texto-suave);
+  font-size: var(--tamanho-pequeno);
+  font-variant-numeric: tabular-nums;
+}
+
+.agenda__item h4 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-2);
+  margin-bottom: var(--espaco-1);
+}
+
+.agenda__item p {
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 15px;
+}
+
+.mural {
+  list-style: none;
+}
+
+.mural > li + li {
+  margin-top: var(--espaco-3);
+}
+
+.mural h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  margin-bottom: var(--espaco-1);
+}
+
+.mural time {
+  display: block;
+  margin-bottom: var(--espaco-2);
+  color: var(--texto-suave);
+  font-size: var(--tamanho-mini);
+}
+
+.mural p {
+  margin: 0;
+  font-size: 15px;
+}
+
+/* ---------- Minha equipe ---------- */
+.membros {
+  list-style: none;
+  border-top: var(--linha);
+}
+
+.membros li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-2);
+  padding: var(--espaco-3) 0;
+  border-bottom: var(--linha);
+}
+
+.membros form {
+  margin: 0;
+}
+
+/* ---------- Avaliação ---------- */
+.notas {
+  list-style: none;
+}
+
+.notas > li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 200px;
+  gap: var(--espaco-4);
+  align-items: start;
+  padding: var(--espaco-4) 0;
+  border-bottom: var(--linha);
+}
+
+.notas > li:first-child {
+  border-top: var(--linha);
+}
+
+.notas p {
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: var(--tamanho-pequeno);
+}
+
+/* ---------- Resultados ---------- */
+.posicao {
+  color: var(--verde-900);
+  font-size: 1.125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Página de erro ---------- */
+.pagina-erro {
+  max-width: 560px;
+}
+
+.pagina-erro .codigo {
+  display: block;
+  margin-bottom: var(--espaco-3);
+  color: var(--texto-suave);
+  font-size: var(--tamanho-pequeno);
+}
+
+/* ---------- Guia de estilo ---------- */
+.amostras {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--espaco-3);
+  list-style: none;
+}
+
+.amostra {
+  border: var(--linha);
+  border-radius: var(--raio-card);
+  overflow: hidden;
+  background: var(--superficie);
+  font-size: var(--tamanho-mini);
+}
+
+.amostra span {
+  display: block;
+  height: 56px;
+}
+
+.amostra p {
+  margin: 0;
+  padding: var(--espaco-2) var(--espaco-3);
+}
+
+.amostra--verde-950 span {
+  background: var(--verde-950);
+}
+.amostra--verde-900 span {
+  background: var(--verde-900);
+}
+.amostra--verde-700 span {
+  background: var(--verde-700);
+}
+.amostra--fundo span {
+  background: var(--fundo);
+}
+.amostra--superficie span {
+  background: var(--superficie);
+}
+.amostra--borda span {
+  background: var(--borda);
+}
+.amostra--texto span {
+  background: var(--texto);
+}
+.amostra--texto-suave span {
+  background: var(--texto-suave);
+}
+.amostra--sucesso span {
+  background: var(--sucesso);
+}
+.amostra--erro span {
+  background: var(--erro);
+}
+.amostra--alerta span {
+  background: var(--alerta);
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 860px) {
+  .destaque,
+  .agenda {
+    grid-template-columns: 1fr;
+    gap: var(--espaco-6);
+  }
+}
+
+@media (max-width: 480px) {
+  .agenda__item {
+    grid-template-columns: 1fr;
+    gap: var(--espaco-1);
+  }
+
+  .notas > li {
+    grid-template-columns: 1fr;
+    gap: var(--espaco-2);
+  }
+}

@@ -1,0 +1,65 @@
+<%
+  const formatarNota = (valor) => valor === null || valor === undefined ? '—' : valor.toFixed(2).replace('.', ',');
+%>
+<div class="cabecalho-pagina">
+  <div>
+    <h1>Resultados</h1>
+    <p><%= evento.nome %></p>
+  </div>
+</div>
+
+<% if (!ranking) { %>
+<div class="vazio">
+  <p>O resultado ainda não foi divulgado. A comissão publica o ranking aqui depois da avaliação dos jurados.</p>
+</div>
+<% } else { %>
+  <% if (ehPrevia) { %>
+  <div class="alerta alerta--alerta" role="status">
+    <p>Prévia visível só para a comissão. O público ainda não vê este ranking. <a href="/comissao/avaliacao">Publicar resultado</a></p>
+  </div>
+  <% } %>
+
+  <% if (ranking.linhas.length === 0) { %>
+  <div class="vazio"><p>Nenhuma equipe aprovada.</p></div>
+  <% } else { %>
+  <div class="tabela-rolavel">
+    <table class="tabela">
+      <caption class="visualmente-oculto">Classificação final das equipes</caption>
+      <thead>
+        <tr>
+          <th scope="col">Posição</th>
+          <th scope="col">Equipe</th>
+          <th scope="col" class="numerico">Nota final</th>
+          <% for (const criterio of ranking.criterios) { %>
+          <th scope="col" class="numerico"><%= criterio.nome %> <span class="texto-suave">(peso <%= criterio.peso %>)</span></th>
+          <% } %>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (const linha of ranking.linhas) { %>
+        <tr>
+          <td>
+            <% if (linha.semAvaliacao) { %>
+            <span class="texto-suave">—</span>
+            <% } else { %>
+            <span class="posicao"><%= linha.posicao %>º</span>
+            <% if (linha.empatada) { %><span class="etiqueta etiqueta--neutra">Empate</span><% } %>
+            <% } %>
+          </td>
+          <th scope="row"><%= linha.nome %></th>
+          <td class="numerico">
+            <% if (linha.semAvaliacao) { %><span class="texto-suave">Sem avaliação</span><% } else { %><strong><%= formatarNota(linha.notaFinal) %></strong><% } %>
+          </td>
+          <% for (const criterio of ranking.criterios) { %>
+          <td class="numerico"><%= formatarNota(linha.mediasPorCriterio[criterio.id]) %></td>
+          <% } %>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+  <p class="texto-suave texto-pequeno">
+    Nota final: média ponderada das médias de cada critério entre os jurados. Desempate pela maior média no critério de maior peso, depois no próximo.
+  </p>
+  <% } %>
+<% } %>

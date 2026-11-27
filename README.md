@@ -6,6 +6,8 @@ Projeto da disciplina de Engenharia de Software I.
 
 ## Funcionalidades por papel
 
+Site: https://hackathon-esi-ifpr.onrender.com/
+
 **Visitante**
 
 - Página inicial com as informações do evento, como participar e os últimos avisos.

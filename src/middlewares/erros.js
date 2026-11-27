@@ -35,11 +35,20 @@ function renderizarErro(res, status, mensagem) {
   });
 }
 
+// Só aceita caminhos do próprio site ("/equipes"), nunca endereços externos
+// ("//outro-site.com", "https://..."). Evita redirecionamento aberto (CWE-601).
+function caminhoInterno(destino) {
+  const ehCaminhoLocal = typeof destino === 'string' && /^\/(?![/\\])/.test(destino);
+  if (!ehCaminhoLocal) return '/';
+  const url = new URL(destino, 'http://localhost');
+  return url.pathname + url.search;
+}
+
 // Formulário com erro: volta para a página do formulário, preenchido e com as mensagens.
 function voltarAoFormulario(erro, req, res) {
   guardarFormulario(req, erro instanceof ErroValidacao ? erro.erros : {});
   req.flash('erro', erro.message);
-  res.redirect(req.voltarPara ?? req.originalUrl);
+  res.redirect(caminhoInterno(req.voltarPara ?? req.originalUrl));
 }
 
 // Middleware central de erros. O usuário nunca vê detalhes técnicos.
@@ -72,4 +81,4 @@ function tratarErros(erro, req, res, next) {
   return renderizarErro(res, 500, MENSAGEM_ERRO_INTERNO);
 }
 
-module.exports = { paginaNaoEncontrada, tratarErros, renderizarErro };
+module.exports = { paginaNaoEncontrada, tratarErros, renderizarErro, caminhoInterno };
